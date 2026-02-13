@@ -1,13 +1,19 @@
-;; CredScore
+;; CredScore Clarity Contract
+;; Decentralized credit scoring oracle adapter.
 
-(define-map data principal uint)
-(define-data-var counter uint u0)
 
-(define-public (store (value uint))
-    (ok (map-set data tx-sender value)))
+(define-map scores principal uint)
+(define-constant oracle tx-sender)
 
-(define-read-only (retrieve (user principal))
-    (ok (default-to u0 (map-get? data user))))
+(define-public (update-score (user principal) (score uint))
+    (begin
+        (asserts! (is-eq tx-sender oracle) (err u401))
+        (map-set scores user score)
+        (ok true)
+    )
+)
 
-(define-public (increment-counter)
-    (ok (var-set counter (+ (var-get counter) u1))))
+(define-read-only (get-score (user principal))
+    (ok (default-to u0 (map-get? scores user)))
+)
+
