@@ -2,8 +2,11 @@
 pragma solidity ^0.8.20;
 
 /// @title CredScore Contract
+/// @author solidworkssa
 /// @notice Decentralized credit scoring oracle adapter.
 contract CredScore {
+    string public constant VERSION = "1.0.0";
+
 
     mapping(address => uint256) public creditScores;
     address public oracle;
