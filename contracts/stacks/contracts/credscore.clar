@@ -17,11 +17,11 @@
 
 
 (define-map scores principal uint)
-(define-constant oracle tx-sender)
+(define-constant oracle contract-caller)
 
 (define-public (update-score (user principal) (score uint))
     (begin
-        (asserts! (is-eq tx-sender oracle) (err u401))
+        (asserts! (is-eq contract-caller oracle) (err u401))
         (map-set scores user score)
         (ok true)
     )
